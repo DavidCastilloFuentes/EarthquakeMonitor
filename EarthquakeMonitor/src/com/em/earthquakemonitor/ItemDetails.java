@@ -1,48 +1,98 @@
 package com.em.earthquakemonitor;
 
+import java.util.Calendar;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.em.earthquakemonitor.controller.Config;
+import com.em.earthquakemonitor.controller.GlobalEnv;
+import com.em.earthquakemonitor.greendao.Earthquakes;
 import com.em.earthquakemonitor.interfaces.TaskDone;
-import com.em.earthquakemonitor.network.LoadServices;
 import com.em.earthquakemonitor.network.Service;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ItemDetails extends BaseActionBarActivity implements TaskDone {
-	TextView feed;
+public class ItemDetails extends BaseFragmentActivity implements TaskDone {
+	TextView magnitude;
+	TextView date;
+	TextView location;
+	Earthquakes earthquake;
+	String itemId;
+	LatLng earthquakeLoc;
+	GoogleMap map;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		// feed = (TextView) findViewById(R.id.feed);
-		// loadFeed();
+		setContentView(R.layout.item_details);
+		itemId = getIntent().getStringExtra(Config.ITEM);
+		loadContents();
 	}
 
-	protected void loadFeed() {
-		Service[] services = new Service[1];
-		services[0] = new Service();
-		services[0].setServiceCode(Config.FEED_CONTENT_CODE);
-		services[0].setServiceName(Config.FEED_CONTENT);
-		services[0].setServiceType(Config.SERVICE_GET);
-		services[0].setTaskDone(this);
-		new LoadServices().loadOnExecutor(services);
+	protected void loadContents() {
+		earthquake = GlobalEnv.getEarthquake(itemId);
+		if (earthquake == null) {
+			finish();
+			return;
+		}
+
+		magnitude = (TextView) findViewById(R.id.magnitude);
+		date = (TextView) findViewById(R.id.date);
+		location = (TextView) findViewById(R.id.location);
+
+		magnitude.setText("Magnitude: "
+				+ GlobalEnv.formatter.format(earthquake.getQMagnitude()));
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(earthquake.getQTime());
+		date.setText("Date & Time: " + calendar.getTime());
+		location.setText("Location: " + earthquake.getQPlace());
+		earthquakeLoc = new LatLng(earthquake.getQLatitude(),
+				earthquake.getQLongitude());
+		map = ((com.google.android.gms.maps.SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.mapView)).getMap();
+		CameraPosition cameraPosition = new CameraPosition.Builder()
+		/* Sets the location */
+		.target(earthquakeLoc)
+		/* Sets the zoom */
+		.zoom(14)
+		/* Sets the orientation of the camera to east */
+		.bearing(90)
+		/* Sets the tilt of the camera to 30 degrees */
+		.tilt(30)
+		/* Creates a CameraPosition from the builder */
+		.build();
+
+		if (map != null) {
+			map.animateCamera(CameraUpdateFactory
+					.newCameraPosition(cameraPosition));
+			map.addMarker(new MarkerOptions()
+					.position(earthquakeLoc)
+					.title(earthquake.getQtitle())
+					.icon(BitmapDescriptorFactory
+							.fromResource(R.drawable.ic_launcher)));
+		} else {
+			Toast.makeText(this,
+					"Maps support is not available for your device",
+					Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
@@ -53,9 +103,6 @@ public class ItemDetails extends BaseActionBarActivity implements TaskDone {
 	@Override
 	public void taskDone(Service response) {
 		switch (response.getServiceCode()) {
-		case Config.FEED_CONTENT_CODE:
-			// feed.setText((String) response.getResponseObject());
-			break;
 		}
 	}
 

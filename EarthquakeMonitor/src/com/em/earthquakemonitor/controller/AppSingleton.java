@@ -10,9 +10,12 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.em.earthquakemonitor.Main;
 import com.em.earthquakemonitor.greendao.DaoMaster;
 import com.em.earthquakemonitor.greendao.DaoSession;
 import com.em.earthquakemonitor.interfaces.TaskDone;
+import com.em.earthquakemonitor.json.JSONHandler;
+import com.em.earthquakemonitor.network.LoadServices;
 import com.em.earthquakemonitor.network.Reachability;
 import com.em.earthquakemonitor.network.Reachability.ReachabilityCallback;
 import com.em.earthquakemonitor.network.Reachability.ReachabilityState;
@@ -122,10 +125,24 @@ public class AppSingleton extends Application implements ReachabilityCallback,
 	}
 
 	public void loadServices() {
+		Service[] services = new Service[1];
+		services[0] = new Service();
+		services[0].setServiceCode(Config.FEED_CONTENT_CODE);
+		services[0].setServiceName(Config.FEED_CONTENT);
+		services[0].setServiceType(Config.SERVICE_GET);
+		services[0].setTaskDone(this);
+		new LoadServices().loadOnExecutor(services);
 	}
 
 	@Override
-	public void taskDone(Service serviceResponse) {
+	public void taskDone(Service response) {
+		switch (response.getServiceCode()) {
+		case Config.FEED_CONTENT_CODE:
+			JSONHandler.storeEarthquakes((String) response.getResponseObject());
+			if (Main.pActivity != null && Main.isActivityVisible)
+				((Main) Main.pActivity).fillEarthquakes();
+			break;
+		}
 	}
 
 	@Override

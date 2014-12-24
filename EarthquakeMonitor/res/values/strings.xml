@@ -7,5 +7,7 @@
     <string name="splash">"Loading&#46;&#46;&#46;"</string>
     <string name="magnitude">"Magnitude: "</string>
     <string name="location">Location</string>
+    <string name="api_key_debug">AIzaSyApAiNNIM3STMXZwMCWyCT3tP2yEYa5Iko</string>
+    <string name="api_key_release"></string>
 
 </resources>

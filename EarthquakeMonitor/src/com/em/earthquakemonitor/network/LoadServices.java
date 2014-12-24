@@ -6,10 +6,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.Build;
 import android.util.Log;
 
@@ -56,10 +52,6 @@ public class LoadServices extends ServiceExecutorAsyncTask {
 		this.services = _services;
 		String out;
 		int i = 0;
-		JSONObject jsonAux;
-		JSONArray arrayAux;
-		String message;
-		int codeMessage;
 		HttpRequest httpRequest = HttpRequest.getSingleton();
 
 		while (i < this.services.length) {
@@ -67,7 +59,6 @@ public class LoadServices extends ServiceExecutorAsyncTask {
 				++i;
 				continue;
 			}
-
 			Log.d(Config.my_tag, services[i].getServiceUrl()
 					+ " with request:  " + services[i].getServiceInput());
 
@@ -76,53 +67,12 @@ public class LoadServices extends ServiceExecutorAsyncTask {
 					: httpRequest.sendPostRequest(
 							this.services[i].getServiceUrl(),
 							this.services[i].getServiceInput());
-
 			Log.i(Config.my_tag, this.services[i].getServiceUrl()
 					+ ", Response: " + out);
-
 			this.services[i].setResponseObject(out);
-			codeMessage = -1;
-			message = "Error";
-
-			try {
-				jsonAux = new JSONObject(
-						(String) this.services[i].getResponseObject());
-
-				codeMessage = jsonAux.getInt("codeMessage");
-				message = jsonAux.getString("message");
-				jsonAux = null;
-			} catch (Exception e) {
-				arrayAux = null;
-				try {
-					arrayAux = new JSONArray(
-							(String) this.services[i].getResponseObject());
-					codeMessage = 0;
-					message = "Llamada exitosa";
-				} catch (JSONException e1) {
-					Log.i(Config.my_tag,
-							"Failed Service Call on service: "
-									+ services[i].getServiceUrl()
-									+ " With response: \""
-									+ this.services[i].getResponseObject()
-									+ "\" Error Message: " + e1.getMessage());
-				}
-				if (arrayAux == null) {
-					Log.i(Config.my_tag,
-							"Failed Service Call on service: "
-									+ services[i].getServiceUrl()
-									+ " With response: \""
-									+ this.services[i].getResponseObject()
-									+ "\" Error Message: " + e.getMessage());
-				}
-				arrayAux = null;
-			}
-
-			this.services[i].setServiceResponseCode(codeMessage);
-			this.services[i].setMensaje(message);
-
+			this.services[i].setServiceResponseCode(0);
+			this.services[i].setMensaje("");
 			out = null;
-			message = null;
-
 			i++;
 			try {
 				Thread.sleep(10);

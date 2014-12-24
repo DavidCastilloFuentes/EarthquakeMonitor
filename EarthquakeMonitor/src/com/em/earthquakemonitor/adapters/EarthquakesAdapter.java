@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,16 +52,16 @@ public class EarthquakesAdapter extends ArrayAdapter<Earthquakes> implements
 			holder = (Holder) view.getTag();
 		}
 		marker = elementos.get(position);
-		holder.magnitude.setText(GlobalEnv.formatter.format(marker
-				.getQMagnitude()));
+		holder.magnitude.setText("Magnitude: "
+				+ GlobalEnv.formatter.format(marker.getQMagnitude()));
 		holder.magnitude.setTextColor(getColor(marker.getQMagnitude()));
-		holder.location.setText(marker.getQPlace());
+		holder.location.setText("Location: " + marker.getQPlace());
 		view.setOnClickListener(this);
 		view.setTag(marker);
 		return view;
 	}
 
-	private int getColor(float magnitude) {
+	private int getColor(double magnitude) {
 		if (magnitude <= 0.9) {
 			return 0xff669900;
 		} else if (magnitude > 0.9 && magnitude <= 9.0) {
@@ -77,8 +77,8 @@ public class EarthquakesAdapter extends ArrayAdapter<Earthquakes> implements
 			Intent itemDetails = new Intent(getContext(), ItemDetails.class);
 			itemDetails.putExtra(Config.ITEM,
 					((Earthquakes) view.getTag()).getQId());
-			if (getContext() instanceof ActionBarActivity) {
-				((ActionBarActivity) getContext()).startActivity(itemDetails);
+			if (getContext() instanceof FragmentActivity) {
+				((FragmentActivity) getContext()).startActivity(itemDetails);
 			}
 		}
 	}

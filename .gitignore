@@ -2,4 +2,7 @@ EarthquakeMonitor/bin
 EarthquakeMonitor/gen
 DaoEarthquakeMonitorGenerator/bin
 appcompat_v7/bin
-appcompat_v7/gen      
+appcompat_v7/gen
+google-play-services_lib/bin
+google-play-services_lib/gen
+      

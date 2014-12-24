@@ -49,7 +49,11 @@ public class DaoEarthquakeMonitorGenerator {
 		earthquakes.addStringProperty("QPlace");
 		earthquakes.addStringProperty("QUrl");
 		earthquakes.addStringProperty("Qtitle");
-		earthquakes.addFloatProperty("QMagnitude");
 		earthquakes.addStringProperty("QDetails");
+		earthquakes.addDoubleProperty("QMagnitude");
+		earthquakes.addDoubleProperty("QLatitude");
+		earthquakes.addDoubleProperty("QLongitude");
+		earthquakes.addDoubleProperty("QDepth");
+		earthquakes.addLongProperty("QTime");
 	}
 }

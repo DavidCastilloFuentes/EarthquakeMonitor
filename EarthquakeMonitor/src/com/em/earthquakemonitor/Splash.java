@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
-public class Splash extends BaseActionBarActivity {
+public class Splash extends BaseFragmentActivity {
 	private static final long SPLASH_SCREEN_DELAY = 5000;
 
 	@Override

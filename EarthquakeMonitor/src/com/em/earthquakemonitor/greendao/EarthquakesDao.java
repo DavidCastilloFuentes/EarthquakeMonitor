@@ -28,8 +28,12 @@ public class EarthquakesDao extends AbstractDao<Earthquakes, Long> {
         public final static Property QPlace = new Property(2, String.class, "QPlace", false, "QPLACE");
         public final static Property QUrl = new Property(3, String.class, "QUrl", false, "QURL");
         public final static Property Qtitle = new Property(4, String.class, "Qtitle", false, "QTITLE");
-        public final static Property QMagnitude = new Property(5, Float.class, "QMagnitude", false, "QMAGNITUDE");
-        public final static Property QDetails = new Property(6, String.class, "QDetails", false, "QDETAILS");
+        public final static Property QDetails = new Property(5, String.class, "QDetails", false, "QDETAILS");
+        public final static Property QMagnitude = new Property(6, Double.class, "QMagnitude", false, "QMAGNITUDE");
+        public final static Property QLatitude = new Property(7, Double.class, "QLatitude", false, "QLATITUDE");
+        public final static Property QLongitude = new Property(8, Double.class, "QLongitude", false, "QLONGITUDE");
+        public final static Property QDepth = new Property(9, Double.class, "QDepth", false, "QDEPTH");
+        public final static Property QTime = new Property(10, Long.class, "QTime", false, "QTIME");
     };
 
     private DaoSession daoSession;
@@ -53,8 +57,12 @@ public class EarthquakesDao extends AbstractDao<Earthquakes, Long> {
                 "'QPLACE' TEXT," + // 2: QPlace
                 "'QURL' TEXT," + // 3: QUrl
                 "'QTITLE' TEXT," + // 4: Qtitle
-                "'QMAGNITUDE' REAL," + // 5: QMagnitude
-                "'QDETAILS' TEXT);"); // 6: QDetails
+                "'QDETAILS' TEXT," + // 5: QDetails
+                "'QMAGNITUDE' REAL," + // 6: QMagnitude
+                "'QLATITUDE' REAL," + // 7: QLatitude
+                "'QLONGITUDE' REAL," + // 8: QLongitude
+                "'QDEPTH' REAL," + // 9: QDepth
+                "'QTIME' INTEGER);"); // 10: QTime
     }
 
     /** Drops the underlying database table. */
@@ -93,14 +101,34 @@ public class EarthquakesDao extends AbstractDao<Earthquakes, Long> {
             stmt.bindString(5, Qtitle);
         }
  
-        Float QMagnitude = entity.getQMagnitude();
-        if (QMagnitude != null) {
-            stmt.bindDouble(6, QMagnitude);
-        }
- 
         String QDetails = entity.getQDetails();
         if (QDetails != null) {
-            stmt.bindString(7, QDetails);
+            stmt.bindString(6, QDetails);
+        }
+ 
+        Double QMagnitude = entity.getQMagnitude();
+        if (QMagnitude != null) {
+            stmt.bindDouble(7, QMagnitude);
+        }
+ 
+        Double QLatitude = entity.getQLatitude();
+        if (QLatitude != null) {
+            stmt.bindDouble(8, QLatitude);
+        }
+ 
+        Double QLongitude = entity.getQLongitude();
+        if (QLongitude != null) {
+            stmt.bindDouble(9, QLongitude);
+        }
+ 
+        Double QDepth = entity.getQDepth();
+        if (QDepth != null) {
+            stmt.bindDouble(10, QDepth);
+        }
+ 
+        Long QTime = entity.getQTime();
+        if (QTime != null) {
+            stmt.bindLong(11, QTime);
         }
     }
 
@@ -125,8 +153,12 @@ public class EarthquakesDao extends AbstractDao<Earthquakes, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // QPlace
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // QUrl
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // Qtitle
-            cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5), // QMagnitude
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // QDetails
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // QDetails
+            cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6), // QMagnitude
+            cursor.isNull(offset + 7) ? null : cursor.getDouble(offset + 7), // QLatitude
+            cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8), // QLongitude
+            cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9), // QDepth
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10) // QTime
         );
         return entity;
     }
@@ -139,8 +171,12 @@ public class EarthquakesDao extends AbstractDao<Earthquakes, Long> {
         entity.setQPlace(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setQUrl(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setQtitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setQMagnitude(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
-        entity.setQDetails(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setQDetails(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setQMagnitude(cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6));
+        entity.setQLatitude(cursor.isNull(offset + 7) ? null : cursor.getDouble(offset + 7));
+        entity.setQLongitude(cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8));
+        entity.setQDepth(cursor.isNull(offset + 9) ? null : cursor.getDouble(offset + 9));
+        entity.setQTime(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
      }
     
     /** @inheritdoc */

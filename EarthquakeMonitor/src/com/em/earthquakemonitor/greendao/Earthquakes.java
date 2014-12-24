@@ -17,8 +17,12 @@ public class Earthquakes {
     private String QPlace;
     private String QUrl;
     private String Qtitle;
-    private Float QMagnitude;
     private String QDetails;
+    private Double QMagnitude;
+    private Double QLatitude;
+    private Double QLongitude;
+    private Double QDepth;
+    private Long QTime;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -37,14 +41,18 @@ public class Earthquakes {
         this.id = id;
     }
 
-    public Earthquakes(Long id, String QId, String QPlace, String QUrl, String Qtitle, Float QMagnitude, String QDetails) {
+    public Earthquakes(Long id, String QId, String QPlace, String QUrl, String Qtitle, String QDetails, Double QMagnitude, Double QLatitude, Double QLongitude, Double QDepth, Long QTime) {
         this.id = id;
         this.QId = QId;
         this.QPlace = QPlace;
         this.QUrl = QUrl;
         this.Qtitle = Qtitle;
-        this.QMagnitude = QMagnitude;
         this.QDetails = QDetails;
+        this.QMagnitude = QMagnitude;
+        this.QLatitude = QLatitude;
+        this.QLongitude = QLongitude;
+        this.QDepth = QDepth;
+        this.QTime = QTime;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -93,20 +101,52 @@ public class Earthquakes {
         this.Qtitle = Qtitle;
     }
 
-    public Float getQMagnitude() {
-        return QMagnitude;
-    }
-
-    public void setQMagnitude(Float QMagnitude) {
-        this.QMagnitude = QMagnitude;
-    }
-
     public String getQDetails() {
         return QDetails;
     }
 
     public void setQDetails(String QDetails) {
         this.QDetails = QDetails;
+    }
+
+    public Double getQMagnitude() {
+        return QMagnitude;
+    }
+
+    public void setQMagnitude(Double QMagnitude) {
+        this.QMagnitude = QMagnitude;
+    }
+
+    public Double getQLatitude() {
+        return QLatitude;
+    }
+
+    public void setQLatitude(Double QLatitude) {
+        this.QLatitude = QLatitude;
+    }
+
+    public Double getQLongitude() {
+        return QLongitude;
+    }
+
+    public void setQLongitude(Double QLongitude) {
+        this.QLongitude = QLongitude;
+    }
+
+    public Double getQDepth() {
+        return QDepth;
+    }
+
+    public void setQDepth(Double QDepth) {
+        this.QDepth = QDepth;
+    }
+
+    public Long getQTime() {
+        return QTime;
+    }
+
+    public void setQTime(Long QTime) {
+        this.QTime = QTime;
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

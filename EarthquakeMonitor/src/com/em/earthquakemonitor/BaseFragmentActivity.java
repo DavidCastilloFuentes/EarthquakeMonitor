@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 
 import com.em.earthquakemonitor.controller.AppSingleton;
 import com.em.earthquakemonitor.controller.FocusWizardService;
 
-public class BaseActionBarActivity extends ActionBarActivity {
+public class BaseFragmentActivity extends FragmentActivity {
 	private final ServiceConnection mConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName cn, IBinder service) {
