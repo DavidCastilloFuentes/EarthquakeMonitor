@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EarthquakeMonitor</string>
+    <string name="no_content">No Content Available</string>
+    <string name="action_settings">Settings</string>
+    <string name="splash">"Loading&#46;&#46;&#46;"</string>
+    <string name="magnitude">"Magnitude: "</string>
+    <string name="location">Location</string>
+
+</resources>

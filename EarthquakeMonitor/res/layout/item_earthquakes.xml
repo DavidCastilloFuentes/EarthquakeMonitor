@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/base_padding" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/indicator_detail"
+        android:layout_toStartOf="@+id/indicator_detail"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/magnitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/magnitude" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/location" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/indicator_detail"
+        android:layout_width="20dip"
+        android:layout_height="40dip"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/abc_ic_go_search_api_holo_light" />
+
+</RelativeLayout>
