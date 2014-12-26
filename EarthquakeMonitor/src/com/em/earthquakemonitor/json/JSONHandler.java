@@ -48,15 +48,17 @@ public class JSONHandler {
 				earthquakes.add(earthquake);
 			}
 
-			// Store Buffer
-			EarthquakesDao dao = AppSingleton.getTheApplication()
-					.getDAOSession().getEarthquakesDao();
+			if (earthquakes.size() > 0) {
+				// Store Buffer
+				EarthquakesDao dao = AppSingleton.getTheApplication()
+						.getDAOSession().getEarthquakesDao();
 
-			// Cleanup
-			dao.deleteAll();
+				// Cleanup
+				dao.deleteAll();
 
-			// Push
-			dao.insertInTx(earthquakes);
+				// Push
+				dao.insertInTx(earthquakes);
+			}
 		} catch (Exception e) {
 			Log.i(Config.my_tag, "Error: " + e);
 		} finally {
