@@ -54,6 +54,7 @@ public class ItemDetails extends BaseFragmentActivity implements TaskDone {
 		calendar.setTimeInMillis(earthquake.getQTime());
 		date.setText("Date & Time: " + calendar.getTime());
 		location.setText("Location: " + earthquake.getQPlace());
+
 		earthquakeLoc = new LatLng(earthquake.getQLatitude(),
 				earthquake.getQLongitude());
 		map = ((com.google.android.gms.maps.SupportMapFragment) getSupportFragmentManager()
